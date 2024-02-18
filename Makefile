@@ -1,20 +1,21 @@
 CC := gcc
 CFLAGS := -O1 -g3 -std=c99 -Wall -Wextra -Wpedantic
-INCLUDE := -I./
+INCLUDE := -Iinclude
 
-.PHONY: test
-test: build/test.o build/list.o
+binary/test: build/test.o build/list.o
+	@mkdir -p binary
 	@$(CC) $(CFLAGS) $^ -o $@
 
-build/%.o: %.c
+build/%.o: source/%.c
 	@mkdir -p build
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-test.c: list.h
+source/test.c: include/list.h
 
-list.c: list.h
+source/list.c: include/list.h
 
-list.h:
+"include/list.h":
 
 .PHONY: clean
-	@rm -rf build
+clean:
+	@rm -rf build binary
